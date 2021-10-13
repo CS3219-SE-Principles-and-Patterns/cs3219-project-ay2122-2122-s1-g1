@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Socket.IO chat</title>
+</head>
+
+<body>
+  <div class="container">
+
+    <br>
+    
+    <textarea class="form-control" id="textarea" rows="3"></textarea>
+
+    <br>
+
+    <ul id="messages"></ul>
+    <form id="form" class="form-inline" action="">
+      <div class="form-group">
+        <input type="text" class="form-control" id="input" value="">
+      </div>
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </div>
+</body>
+</html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+
+  var textarea = document.getElementById('textarea');
+  var form = document.getElementById('form');
+  var input = document.getElementById('input');
+
+  textarea.addEventListener('keyup', function (e) {
+    console.log('e')
+    e.preventDefault();
+    if (textarea.value) {
+      socket.emit('chat message', textarea.value);
+    }
+  });
+
+  socket.on('chat message', function (msg) {
+    // var item = document.createElement('li');
+    var textarea = document.getElementById('textarea');
+    textarea.value = msg;
+    // messages.appendChild(item);
+    // window.scrollTo(0, document.body.scrollHeight);
+  });
+
+</script>
