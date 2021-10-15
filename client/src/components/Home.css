@@ -1,0 +1,15 @@
+* {
+  color: #F2F2F2;
+}
+
+.span-filler-home {
+  height: 20vh;
+}
+
+.jumbotron-main-home {
+  height: 90vh;
+}
+
+div.home-description {
+  text-align: center;
+}
