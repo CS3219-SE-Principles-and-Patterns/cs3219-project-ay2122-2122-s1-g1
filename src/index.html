@@ -39,11 +39,11 @@
     console.log('e')
     e.preventDefault();
     if (textarea.value) {
-      socket.emit('chat message', textarea.value);
+      socket.emit('chatMessage', textarea.value);
     }
   });
 
-  socket.on('chat message', function (msg) {
+  socket.on('chatMessage', function (msg) {
     // var item = document.createElement('li');
     var textarea = document.getElementById('textarea');
     textarea.value = msg;
