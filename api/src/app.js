@@ -36,8 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/', authRoutes)
-// app.use('/users', usersRouter);
-// app.use("/testAPI", testAPIRouter);
+app.use('/users', usersRouter);
+app.use("/testAPI", testAPIRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,7 +55,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var port = process.env.PORT || 8081;
+var port = process.env.PORT || 9000;
 
 // Launch app to listen to specified port
 app.listen(port, function () {
