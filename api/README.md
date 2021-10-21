@@ -1,5 +1,6 @@
 # Do not use NUS Wifi for MongoDB
 
+## npm install
 ## npm start
 
 ## On postman, try the following:
