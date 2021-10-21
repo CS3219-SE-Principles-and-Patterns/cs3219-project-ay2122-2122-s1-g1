@@ -6,9 +6,40 @@ const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
 //define schema
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  isAdmin: {type: Boolean, required: true} 
+  username: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+  password: { 
+    type: String, 
+    required: true 
+  },
+  isAdmin: {
+    type: Boolean, 
+    required: true
+  },
+  easyQuestionsDone: {
+    type: Array,
+    questionsDone: [{
+      questionNumber: String,
+      answer: String
+    }]
+  },
+  mediumQuestionsDone: {
+    type: Array,
+    questionsDone: [{
+      questionNumber: String,
+      answer: String
+    }]
+  },
+  hardQuestionsDone: {
+    type: Array,
+    questionsDone: [{
+      questionNumber: String,
+      answer: String
+    }]
+  } 
 });
 
 //define schema level methods to create access token and refresh token:

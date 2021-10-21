@@ -6,7 +6,9 @@ var uri = "mongodb+srv://cs3219user:7NIihwYv4ilcG5XR@cs3219group1.mnajh.mongodb.
 // var uri = process.env.MONGODB_URL || "mongodb://localhost";
 
 // Connect MongoDB Atlas using mongoose connect method
-mongoose.connect(uri).then(() => {
+mongoose.connect(uri, {
+    autoIndex: true
+}).then(() => {
     console.log("Database connection established!");
 }, err  => {{
     console.log("Check that you are not using NUS Wifi. Error connecting Database instance due to:", err); 
