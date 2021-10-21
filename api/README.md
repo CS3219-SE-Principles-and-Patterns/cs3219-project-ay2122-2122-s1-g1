@@ -1,7 +1,7 @@
 # Do not use NUS Wifi for MongoDB
 
-## npm install
-## npm start
+- npm install
+- npm start
 
 ## On postman, try the following:
 
@@ -23,3 +23,6 @@
 ### GET localhost:8080/authenticated_resource
 
 ### GET localhost:8080/authorized_resource
+
+## Import the following postman collection for questions and users update
+https://www.getpostman.com/collections/299db8bcde704d90e3ce
