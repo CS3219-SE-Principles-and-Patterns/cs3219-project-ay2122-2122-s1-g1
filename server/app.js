@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
+const { v4: uuidv4 } = require('uuid');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,8 +23,36 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', (client) => {
-  client.on('chatMessage', (msg) => {
-    io.emit('chatMessage', msg);
+  console.log(`client [${client.id}] connected`);
+
+  client.on('chatMessage', (data) => {
+    console.log(data);
+    io.to(data.roomId).emit('chatMessage', data.message);
+  });
+
+  client.on('join', (difficulty) => {
+    var hasJoined = false;
+    if (io.sockets.adapter.rooms != null) {
+      const rooms = io.sockets.adapter.rooms;
+
+      // iterate current rooms and join if possible
+      for (const [key, value] of rooms.entries()) {
+        if (key.includes(difficulty.concat('-')) && value.size < 2) {
+          client.join(key);
+          console.log(`client [${client.id}] has joined room [${key}]`);
+          hasJoined = true;
+          io.to(key).emit('connected', key);
+        }
+      }
+    }
+
+    if (!hasJoined) {
+      roomId = difficulty.concat('-', uuidv4());
+      client.join(roomId);
+      console.log(`client [${client.id}] has joined room [${roomId}]`);
+      hasJoined = true;
+      io.to(roomId).emit('connected', roomId);
+    }
   });
 })
 

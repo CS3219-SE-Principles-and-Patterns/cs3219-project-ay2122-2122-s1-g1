@@ -14,9 +14,9 @@ class Editor extends Component {
 
   componentDidMount() {
     api.chatMessage((err, text) => {
+      console.log(text);
       var textarea = document.getElementById('textarea');
       textarea.value = text;
-      console.log("A " + text);
       this.setState({ text });
     }, document.getElementById('textarea'));
   }
