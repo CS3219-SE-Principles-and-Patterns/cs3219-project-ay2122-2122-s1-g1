@@ -3,6 +3,17 @@
 - npm install
 - npm start
 
+To start redis server:
+- redis-server
+
+To debug redis keys:
+- redis-cli
+
+Commands to debug:
+
+keys * \
+flushall to remove all keys
+
 ## On postman, try the following:
 
 ### POST localhost:8080/auth/signup
