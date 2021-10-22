@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const Token = require("./token.model");
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
+
+const { redisClient, DEFAULT_EXPIRATION } = require("../../config/redisConnection")
 
 //define schema
 const userSchema = new mongoose.Schema({
@@ -58,21 +59,28 @@ userSchema.methods = {
             return;
         }
   },
+  
+  // Stored in redis
   createRefreshToken: async function () {
     try {
-        let { _id, username, isAdmin } = this;
-        let refreshToken = jwt.sign(
-            { user: { _id, username, isAdmin } },
-            REFRESH_TOKEN_SECRET,
-            { expiresIn: "1d",}
-        );
-    await new Token({ token: refreshToken }).save();
-            return refreshToken;
-        } catch (error) {
-            console.error(error);
-            return;
-        }
-    },
+      let { _id, username, isAdmin } = this;
+      let refreshToken = jwt.sign(
+          { user: { _id, username, isAdmin } },
+          REFRESH_TOKEN_SECRET,
+          { expiresIn: DEFAULT_EXPIRATION.toString() + "s",} // Same expiration as that set in redis
+      );
+      redisClient.setex(refreshToken, DEFAULT_EXPIRATION, 0,
+          (redisSetErr, reply) => {
+              if (redisSetErr) console.log(redisSetErr);
+              else console.log(reply);
+          }
+      );
+      return refreshToken;
+    } catch (error) {
+        console.error(error);
+        return;
+    }
+  },
 };
 
 //pre save hook to hash password before saving user into the database:
