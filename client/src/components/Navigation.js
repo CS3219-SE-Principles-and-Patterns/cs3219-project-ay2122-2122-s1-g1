@@ -21,7 +21,7 @@ function Navigation(props) {
                 <Link class="nav-link" to="/">Home</Link>
               </li>
               <li class='nav-item'>
-                <Link class="nav-link" to="/about">About</Link>
+                <Link class="nav-link" to="/login">Login</Link>
               </li>
               <li class='nav-item'>
                 <Link class="nav-link" to="/dashboard">Dashboard</Link>
