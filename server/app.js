@@ -39,19 +39,20 @@ io.on('connection', (client) => {
       for (const [key, value] of rooms.entries()) {
         if (key.includes(difficulty.concat('-')) && value.size < 2) {
           client.join(key);
-          console.log(`client [${client.id}] has joined room [${key}]`);
+          console.log(`client [${client.id}] has joined existing room [${key}]`);
           hasJoined = true;
-          io.to(key).emit('connected', key);
+          io.to(key).emit('matched', { roomId: key, connectedUser: 2});
         }
       }
     }
 
     if (!hasJoined) {
+      console.log('creating new room...');
       roomId = difficulty.concat('-', uuidv4());
       client.join(roomId);
-      console.log(`client [${client.id}] has joined room [${roomId}]`);
+      console.log(`client [${client.id}] has created and joined room [${roomId}]`);
       hasJoined = true;
-      io.to(roomId).emit('connected', roomId);
+      io.to(roomId).emit('connected', { roomId: roomId, connectedUser: 1});
     }
   });
 })

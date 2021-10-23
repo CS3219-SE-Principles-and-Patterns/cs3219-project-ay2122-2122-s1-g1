@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import './Dashboard.css';
 
 import { socket } from '../service/socket';
-import { rooms } from '../service/rooms';
 
 function Dashboard() {
   const history = useHistory();
@@ -16,11 +15,20 @@ function Dashboard() {
 
     // socket.on('disconnect', console.log('disconnected'))
 
-    socket.on('connected', (roomId) => {
+    socket.on('connected', ({ roomId, connectedUser }) => {
       document.cookie = `roomId=${roomId}`;
-      let path = `/editor`;
-      history.push(path);
-    })
+      console.log(`no of connected users: ${connectedUser}`);
+
+      if (connectedUser == 1) {
+        history.push({ pathname: '/loading', state: { roomId: roomId, connectedUser: connectedUser } });
+      }
+    });
+
+    socket.on('matched', ({ roomId, connectedUser }) => {
+      if (connectedUser == 2) {
+        history.push('/editor');
+      }
+    });
   }
 
   return (

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Loading from "./components/Loading";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
@@ -38,6 +39,7 @@ class App extends Component {
               <Route path="/" exact component={() => <Home />} />
               <Route path="/login" exact component={() => <Login />} />
               <Route path="/register" exact component={() => <Register />} />
+              <Route path="/loading" exact component={() => <Loading />} />
               <Route path="/dashboard" exact component={() => <Dashboard />} />
               <Route path="/editor" exact component={() => <Editor />} />
             </Switch>
