@@ -6,17 +6,15 @@ import './Loading.css';
 
 function Loading() {
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     const roomId = location.state.roomId;
 
-    socket.on('matched', ({ roomId, connectedUser }) => {
-      history.push('/editor');
+    socket.on('matched', ({ roomId }) => {
+      history.push({ pathname: '/editor', state: { roomId: roomId } });
     })
   });
-
-  const location = useLocation();
-  console.log(location.state);
 
   return (
     <div class="container my-5 h-100">

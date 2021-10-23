@@ -20,13 +20,13 @@ function Dashboard() {
       console.log(`no of connected users: ${connectedUser}`);
 
       if (connectedUser == 1) {
-        history.push({ pathname: '/loading', state: { roomId: roomId, connectedUser: connectedUser } });
+        history.push({ pathname: '/loading', state: { roomId: roomId } });
       }
     });
 
     socket.on('matched', ({ roomId, connectedUser }) => {
       if (connectedUser == 2) {
-        history.push('/editor');
+        history.push({ pathname: '/editor', state: { roomId: roomId } });
       }
     });
   }

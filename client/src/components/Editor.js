@@ -1,21 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import * as api from '../api';
+import { useLocation } from "react-router-dom";
 import { socket } from '../service/socket';
+import * as api from '../api';
 import './Editor.css';
 
 function Editor() {
+  const [text, setText] = useState('');
   const timeStamp = 'no timestamp yet';
   const textarea = document.getElementById('textarea');
 
-  let history = useHistory();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     api.chatMessage((err, text) => {
       console.log(text);
       var textarea = document.getElementById('textarea');
       textarea.value = text;
-      this.setState({ text });
+      setText(text);
     }, document.getElementById('textarea'));
 
     socket.on('disconnectAll', () => {
@@ -24,7 +27,7 @@ function Editor() {
   });
 
   const endSession = () => {
-    socket.emit('endSession');
+    socket.emit('endSession', { roomId: location.state.roomId });
   }
 
   return (

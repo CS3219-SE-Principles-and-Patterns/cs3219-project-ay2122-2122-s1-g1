@@ -56,8 +56,8 @@ io.on('connection', (client) => {
     }
   });
 
-  client.on('endSession', () => {
-    io.emit('disconnectAll');
+  client.on('endSession', ({ roomId }) => {
+    io.to(roomId).emit('disconnectAll');
   })
 })
 
