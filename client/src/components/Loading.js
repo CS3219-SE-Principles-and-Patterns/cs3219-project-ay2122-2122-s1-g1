@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { socket } from '../service/socket';
+import loading from '../assets/img/loading.gif';
 import './Loading.css';
 
 function Loading() {
@@ -17,8 +18,10 @@ function Loading() {
   });
 
   return (
-    <div class="container my-5 h-100">
-      <p class="loading-text">Waiting at room [${location.state.roomId}]...</p>
+    <div class="container my-5 h-100 loading-container">
+      <img src={loading} />
+      <h3 class="loading-text">Waiting for another user at room:</h3>
+      <p class="loading-room-id">[${location.state.roomId}]</p>
     </div>
   );
 }

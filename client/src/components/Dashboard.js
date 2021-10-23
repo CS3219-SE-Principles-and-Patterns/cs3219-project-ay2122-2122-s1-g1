@@ -16,7 +16,8 @@ function Dashboard() {
     // socket.on('disconnect', console.log('disconnected'))
 
     socket.on('connected', ({ roomId, connectedUser }) => {
-      document.cookie = `roomId=${roomId}`;
+      // document.cookie = `roomId=${roomId}`;
+      sessionStorage.setItem('roomId', roomId);
       console.log(`no of connected users: ${connectedUser}`);
 
       if (connectedUser == 1) {
@@ -25,6 +26,7 @@ function Dashboard() {
     });
 
     socket.on('matched', ({ roomId, connectedUser }) => {
+      sessionStorage.setItem('roomId', roomId);
       if (connectedUser == 2) {
         history.push({ pathname: '/editor', state: { roomId: roomId } });
       }

@@ -26,8 +26,8 @@ io.on('connection', (client) => {
   console.log(`client [${client.id}] connected`);
 
   client.on('chatMessage', (data) => {
-    console.log(data);
     io.to(data.roomId).emit('chatMessage', data.message);
+    // console.log(`emitting to room [${data.roomId} with message: ${data.message}]`)
   });
 
   client.on('join', (difficulty) => {
