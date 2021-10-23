@@ -1,0 +1,16 @@
+* {
+  color: #F2F2F2;
+}
+
+.span-filler-about {
+  height: 20vh;
+}
+
+.main-about {
+  height: 100vh;
+}
+
+p.description {
+  text-align: justify;
+  font-size: 18px;
+}

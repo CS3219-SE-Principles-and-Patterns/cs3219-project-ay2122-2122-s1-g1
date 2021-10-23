@@ -1,6 +1,17 @@
-import React, {Component } from "react"
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import Loading from "./components/Loading";
+import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Navigation from "./components/Navigation";
+import Editor from "./components/Editor";
+
+// import './App.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
   constructor(props) {
@@ -9,30 +20,31 @@ class App extends Component {
   }
 
   callAPI() {
-      fetch("http://localhost:9000/testAPI")
-          .then(res => res.text())
-          .then(res => this.setState({ apiResponse: res }));
+    fetch("http://localhost:5000/testAPI")
+      .then(res => res.text())
+      .then(res => this.setState({ apiResponse: res }))
+      .catch(err => err);
   }
 
-  componentWillMount() {
-      this.callAPI();
+  componentDidMount() {
+    this.callAPI();
   }
 
-  render () {
+  render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p className="App-intro">;{this.state.apiResponse}</p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Router>
+          <Navigation />
+            <Switch>
+              <Route path="/" exact component={() => <Home />} />
+              <Route path="/login" exact component={() => <Login />} />
+              <Route path="/register" exact component={() => <Register />} />
+              <Route path="/loading" exact component={() => <Loading />} />
+              <Route path="/dashboard" exact component={() => <Dashboard />} />
+              <Route path="/editor" exact component={() => <Editor />} />
+            </Switch>
+          <Footer />
+        </Router>
       </div>
     );
   }

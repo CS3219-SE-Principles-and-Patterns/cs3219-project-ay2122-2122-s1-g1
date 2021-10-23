@@ -1,0 +1,36 @@
+* {
+  color: #F2F2F2;
+}
+
+.span-filler-dashboard {
+  height: 20vh;
+}
+
+.main-dashboard {
+  height: 100vh;
+}
+
+div.dashboard-visuals {
+  text-align: center;
+}
+
+div.dashboard-description {
+  text-align: center;
+}
+
+.btn {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.btn-easy {
+  background-color: #9BDA5C;
+}
+
+.btn-medium {
+  background-color: #FFC747;
+}
+
+.btn-easy {
+  background-color: #F54847;
+}

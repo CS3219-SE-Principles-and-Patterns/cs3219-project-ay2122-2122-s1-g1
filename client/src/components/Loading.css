@@ -1,0 +1,13 @@
+.loading-container {
+  padding-top: 150px;
+  text-align: center;
+}
+
+.loading-text {
+  padding-top: 100px;
+  color: black;
+}
+
+.loading-room-id {
+  color: black;
+}
