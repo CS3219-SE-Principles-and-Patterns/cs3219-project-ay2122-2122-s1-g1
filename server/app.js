@@ -55,6 +55,10 @@ io.on('connection', (client) => {
       io.to(roomId).emit('connected', { roomId: roomId, connectedUser: 1});
     }
   });
+
+  client.on('endSession', () => {
+    io.emit('disconnectAll');
+  })
 })
 
 // server.listen(app.get('port'));

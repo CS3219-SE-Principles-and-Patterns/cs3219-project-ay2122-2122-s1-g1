@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import './Loading.css';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
-
-import * as api from '../api';
 import { socket } from '../service/socket';
+import './Loading.css';
 
 function Loading() {
   const history = useHistory();
@@ -13,11 +11,7 @@ function Loading() {
     const roomId = location.state.roomId;
 
     socket.on('matched', ({ roomId, connectedUser }) => {
-      let path = `/editor`;
-      history.push(path);
-
-      // let path = `/editor`;
-      // history.push(path);
+      history.push('/editor');
     })
   });
 
