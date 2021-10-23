@@ -23,13 +23,14 @@ class Editor extends Component {
 
   render() {
     return (
-      <div class="jumbotron jumbotron-main bg-dark">
+      <div class="main-editor bg-dark">
         <div className="editor bg-dark my-5 h-100 flex-column">
           <div class="container">
             <div class="row">
               <span class="span-filler-editor">
               </span>
             </div>
+
             <div class="row">
               <div class="col-lg-5">
                 <h3>1. Two Sum</h3>
@@ -56,7 +57,12 @@ class Editor extends Component {
                 <textarea class="form-control" id="textarea" rows="15"></textarea>
                 <ul id="messages"></ul>
               </div>
+            </div>
 
+            <div class="row">
+              <div class="col end-session">
+                <button type="button" class="btn btn-danger end-session-button">End session</button>
+              </div>
             </div>
           </div>
         </div>

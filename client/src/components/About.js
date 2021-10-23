@@ -3,7 +3,7 @@ import './About.css';
 
 function About() {
   return (
-    <div class="jumbotron jumbotron-main bg-dark">
+    <div class="main-about bg-dark">
       <div className="about my-5 h-100 flex-column">
         <div class="container">
 

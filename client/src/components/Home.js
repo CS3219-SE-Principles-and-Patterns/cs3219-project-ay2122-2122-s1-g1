@@ -1,15 +1,14 @@
 import React from "react";
 import logo from '../assets/img/peerprep.png';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
+import { useHistory } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
+  const history = useHistory();
+
   return (
-    <div class="jumbotron jumbotron-main bg-dark">
-      <div class="container-md my-5 h-100 flex-column">
+    <div class="main-home bg-dark">
+      <div class="container-md flex-column">
         <div class="container">
           <div class="row">
             <span class="span-filler-home">
@@ -32,7 +31,7 @@ function Home() {
                 <br />
 
                 <div class='register-btn-div'>
-                  <button type="button" class="btn btn-info btn-lg rounded-pill" href="#">Register</button>
+                  <button type="button" class="btn btn-info btn-lg rounded-pill" onClick={() => history.push('/register')}>Register</button>
                 </div>
               </div>
             </div>

@@ -24,7 +24,7 @@ function Dashboard() {
   }
 
   return (
-    <div class="jumbotron jumbotron-main bg-dark">
+    <div class="main-dashboard bg-dark">
       <div className="dashboard my-5 h-100 flex-column">
         <div class="container">
 

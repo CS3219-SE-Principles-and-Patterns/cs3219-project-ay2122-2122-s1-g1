@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from 'react-router-dom';
-import "./Login.css";
+import "./Register.css";
 
-function Login() {
+function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,7 +18,7 @@ function Login() {
   const history = useHistory();
 
   return (
-    <div className="Login main-login bg-dark">
+    <div className="Register main-login bg-dark">
       <div className="bg-dark my-5 h-100 flex-column">
         <h4>PeerPrep</h4>
         <br />
@@ -44,16 +44,16 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-          
+
           <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()} onClick={() => history.push('/dashboard')}>
-            Login
+            Register
           </button>
         </Form>
 
         <br />
 
-        <div class="sign-up-a">
-          <a href="/register">Sign up</a>
+        <div class="login-a">
+          Have an account? <a href="/login">Sign in</a>
         </div>
       </div>
 
@@ -61,4 +61,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
