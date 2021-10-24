@@ -7,17 +7,17 @@ import { axiosService } from '../service/axiosService'
 import { useHistory } from 'react-router-dom';
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   function validateForm() {
-    return email.length > 0 && password.length > 0;
+    return username.length > 0 && password.length > 0;
   }
 
   function handleSubmitForm(event) {
     event.preventDefault();
     axiosService.post('auth/login', {
-      username: email,
+      username: username,
       password: password,
     }).then((response) => {
       console.log(response);
@@ -36,13 +36,13 @@ function Login() {
         <br />
 
         <Form onSubmit={handleSubmitForm}>
-          <Form.Group size="lg" controlId="email">
+          <Form.Group size="lg" controlId="username">
             <Form.Control
               autoFocus
-              placeholder="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Username"
+              type="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
 
