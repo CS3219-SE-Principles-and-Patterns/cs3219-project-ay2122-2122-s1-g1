@@ -3,6 +3,7 @@ const client = redis.createClient();
 const DEFAULT_EXPIRATION = 86400; // 1 day
 
 client.on("error", function(error) {
+  console.error("Please start redis-server")
   console.error(error);
 });
 

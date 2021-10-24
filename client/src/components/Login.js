@@ -1,19 +1,31 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { useHistory } from 'react-router-dom';
 import "./Login.css";
 
+import React, { useState } from "react";
+
+import Form from "react-bootstrap/Form";
+import { axiosService } from '../service/axiosService'
+import { useHistory } from 'react-router-dom';
+
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   function validateForm() {
-    return email.length > 0 && password.length > 0;
+    return username.length > 0 && password.length > 0;
   }
 
   function handleSubmitForm(event) {
     event.preventDefault();
+    axiosService.post('auth/login', {
+      username: username,
+      password: password,
+    }).then((response) => {
+      console.log(response);
+      history.push('/dashboard')
+    
+    }, (error) => {
+      console.log(error);
+    });
   }
   const history = useHistory();
 
@@ -24,18 +36,17 @@ function Login() {
         <br />
 
         <Form onSubmit={handleSubmitForm}>
-          <Form.Group size="lg" controlId="email">
+          <Form.Group size="lg" controlId="username">
             <Form.Control
               autoFocus
-              placeholder="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Username"
+              type="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
 
           <br />
-
           <Form.Group size="lg" controlId="password">
             <Form.Control
               placeholder="Password"
@@ -45,7 +56,7 @@ function Login() {
             />
           </Form.Group>
           
-          <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()} onClick={() => history.push('/dashboard')}>
+          <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()}>
             Login
           </button>
         </Form>
