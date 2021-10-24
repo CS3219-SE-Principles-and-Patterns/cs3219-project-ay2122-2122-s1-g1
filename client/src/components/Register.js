@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { useHistory } from 'react-router-dom';
 import "./Register.css";
+
+import React, { useState } from "react";
+
+import Form from "react-bootstrap/Form";
+import { axiosService } from '../service/axiosService'
+import { useHistory } from 'react-router-dom';
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -11,9 +13,22 @@ function Register() {
   function validateForm() {
     return email.length > 0 && password.length > 0;
   }
-
+    
   function handleSubmitForm(event) {
     event.preventDefault();
+    console.log("Register clicked")
+
+    axiosService.post('auth/signup', {
+      username: email,
+      password: password,
+      isAdmin: false
+    }).then((response) => {
+      console.log(response);
+      history.push('/dashboard')
+    
+    }, (error) => {
+      console.log(error);
+    });
   }
   const history = useHistory();
 
@@ -45,7 +60,7 @@ function Register() {
             />
           </Form.Group>
 
-          <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()} onClick={() => history.push('/dashboard')}>
+          <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()}>
             Register
           </button>
         </Form>

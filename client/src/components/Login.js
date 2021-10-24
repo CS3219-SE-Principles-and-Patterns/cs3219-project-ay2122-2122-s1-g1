@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { useHistory } from 'react-router-dom';
 import "./Login.css";
+
+import React, { useState } from "react";
+
+import Form from "react-bootstrap/Form";
+import { axiosService } from '../service/axiosService'
+import { useHistory } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,6 +16,16 @@ function Login() {
 
   function handleSubmitForm(event) {
     event.preventDefault();
+    axiosService.post('auth/login', {
+      username: email,
+      password: password,
+    }).then((response) => {
+      console.log(response);
+      history.push('/dashboard')
+    
+    }, (error) => {
+      console.log(error);
+    });
   }
   const history = useHistory();
 
@@ -35,7 +47,6 @@ function Login() {
           </Form.Group>
 
           <br />
-
           <Form.Group size="lg" controlId="password">
             <Form.Control
               placeholder="Password"
@@ -45,7 +56,7 @@ function Login() {
             />
           </Form.Group>
           
-          <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()} onClick={() => history.push('/dashboard')}>
+          <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()}>
             Login
           </button>
         </Form>
