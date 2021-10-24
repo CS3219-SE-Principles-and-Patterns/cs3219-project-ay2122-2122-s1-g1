@@ -53,7 +53,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var port = process.env.PORT || 9000;
+var port = process.env.PORT || 8080;
+// var port = 8080;
 
 // Launch app to listen to specified port
 app.listen(port, function () {
