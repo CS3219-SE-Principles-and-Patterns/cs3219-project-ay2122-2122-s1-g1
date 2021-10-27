@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const dbURL = "http://localhost:9000/"
+const dbURL = "http://localhost:8080/"
 
 export const axiosService = axios.create({
     baseURL: dbURL,
