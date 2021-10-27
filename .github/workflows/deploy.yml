@@ -1,0 +1,30 @@
+name: Deploy to Google App Engine and Heroku
+on:
+  push:
+    branches:
+      - main
+      - branch_ch_GCP_deployment
+jobs:
+  deployGAE:
+    name: GAE Deploy
+    env:
+      working-directory: ./api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/deploy-appengine@main
+        with:
+          credentials: ${{ secrets.gcp_credentials }}
+
+  deployHeroku:
+    name: Heroku deploy
+    env:
+      working-directory: ./client
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "peerprep-g1" #Must be unique in Heroku
+          heroku_email: "oranged97@gmail.com"
