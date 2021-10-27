@@ -16,7 +16,7 @@ jobs:
         with:
           credentials: ${{ secrets.gcp_credentials }}
 
-  build:
+    name: Heroku deploy
     env:
       working-directory: ./client
     runs-on: ubuntu-latest
