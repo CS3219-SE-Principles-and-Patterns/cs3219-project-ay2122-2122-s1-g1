@@ -5,7 +5,7 @@ on:
       - main
       - branch_ch_GCP_deployment
 jobs:
-  build:
+  deployGAE:
     name: GAE Deploy
     env:
       working-directory: ./api
@@ -16,6 +16,7 @@ jobs:
         with:
           credentials: ${{ secrets.gcp_credentials }}
 
+  deployHeroku:
     name: Heroku deploy
     env:
       working-directory: ./client
