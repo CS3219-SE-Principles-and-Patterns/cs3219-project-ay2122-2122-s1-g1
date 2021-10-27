@@ -5,10 +5,9 @@ on:
       - main
       - branch_ch_GCP_deployment
 jobs:
+  working-directory: ./api
   build:
     name: GAE Deploy
-    env:
-      working-directory: ./api
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
