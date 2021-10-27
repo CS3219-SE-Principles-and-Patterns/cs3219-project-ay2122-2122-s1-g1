@@ -1,4 +1,4 @@
-name: Deploy to Google App Engine
+name: Deploy to Google App Engine and Heroku
 on:
   push:
     branches:
@@ -16,14 +16,6 @@ jobs:
         with:
           credentials: ${{ secrets.gcp_credentials }}
 
-name: Deploy to heroku
-on:
-  push:
-    branches:
-      - main
-      - branch_ch_GCP_deployment
-
-jobs:
   build:
     env:
       working-directory: ./client
