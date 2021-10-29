@@ -1,0 +1,29 @@
+* {
+  color: #F2F2F2;
+}
+
+.span-filler-login {
+  height: 5vh;
+}
+  
+.main-login {
+  height: 100vh;
+}
+
+h4 {
+  text-align: center;
+}
+
+.Login {
+  padding: 160px 0;
+}
+
+.Login form {
+  margin: 0 auto;
+  max-width: 300px;
+  text-align: center;
+}
+
+.sign-up-a {
+  text-align: center;
+}

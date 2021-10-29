@@ -1,8 +1,8 @@
 const User = require("../models/user.model");
-const Token = require("../models/token.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
+const { redisClient, DEFAULT_EXPIRATION } = require("../../config/redisConnection")
 
 exports.signup = async (req, res) => {
     try {
@@ -49,6 +49,7 @@ exports.login = async (req, res) => {
     }
 };
 
+// Saved to redis
 exports.generateRefreshToken = async (req, res) => {
     try {
         //get refreshToken
@@ -58,18 +59,21 @@ exports.generateRefreshToken = async (req, res) => {
             return res.status(403).json({ error: "Access denied, token missing!" });
         } else {
             //query for the token to check if it is valid:
-            const tokenDoc = await Token.findOne({ token: refreshToken });
-            //send error if no token found:
-            if (!tokenDoc) {
-                return res.status(401).json({ error: "Token expired!" });
-            } else {
-                //extract payload from refresh token and generate a new access token and send it
-                const payload = jwt.verify(tokenDoc.token, REFRESH_TOKEN_SECRET);
-                const accessToken = jwt.sign({ user: payload }, ACCESS_TOKEN_SECRET, {
-                    expiresIn: "10m",
-                });
-                return res.status(200).json({ accessToken });
-            }
+            redisClient.get(refreshToken, (redisErr, data) => {
+                if (redisErr) { 
+                    console.log(redisErr);
+                }
+                if (data) {
+                    console.log("Refresh token found: " + refreshToken);
+                    const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+                    const accessToken = jwt.sign({ user: payload }, ACCESS_TOKEN_SECRET, {
+                        expiresIn: "10m",
+                    });
+                    return res.status(200).json({ accessToken });
+                } else {
+                    return res.status(401).json({ error: "Token expired!" });
+                }
+            })
         }
     } catch (error) {
         console.error(error);

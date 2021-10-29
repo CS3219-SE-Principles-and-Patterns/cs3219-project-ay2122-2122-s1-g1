@@ -1,0 +1,21 @@
+* {
+  color: #F2F2F2;
+}
+
+.span-filler-editor {
+  height: 5vh;
+}
+
+.main-editor {
+  height: 100vh;
+}
+
+.end-session {
+  text-align: right;
+}
+
+.end-session-button {
+  width: 150px;
+  margin: 0;
+  padding: 0;
+}

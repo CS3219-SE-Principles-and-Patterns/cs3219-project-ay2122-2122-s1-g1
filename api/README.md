@@ -1,6 +1,18 @@
 # Do not use NUS Wifi for MongoDB
 
-## npm start
+- npm install
+- npm start
+
+To start redis server:
+- redis-server
+
+To debug redis keys:
+- redis-cli
+
+Commands to debug:
+
+keys * \
+flushall to remove all keys
 
 ## On postman, try the following:
 
@@ -22,3 +34,6 @@
 ### GET localhost:8080/authenticated_resource
 
 ### GET localhost:8080/authorized_resource
+
+## Import the following postman collection for questions and users update
+https://www.getpostman.com/collections/299db8bcde704d90e3ce

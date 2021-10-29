@@ -10,7 +10,6 @@ router.delete("/auth/logout", AuthController.logout);
 //@access to only authenticated users
 router.get("/authenticated_resource", Middleware.checkAuthenticated, (req, res) => {
   console.log("req: ", req)
-  // return res.status(200)
   return res.status(200).json({ user: req.user });
 });
 
