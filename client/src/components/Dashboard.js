@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 import './Dashboard.css';
 
 import { socket } from '../service/socket';
+import { Doughnut } from 'react-chartjs-2';
+import Box from '@material-ui/core/Box';
 
 function Dashboard() {
   const history = useHistory();
@@ -33,19 +35,56 @@ function Dashboard() {
     });
   }
 
+  const data = {
+    labels: [
+      'Easy',
+      'Medium',
+      'Hard'
+    ],
+    datasets: [{
+      label: 'Number Of Questions Done',
+      data: [300, 50, 100],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+      ],
+      hoverOffset: 4
+    }]
+  };
+
   return (
     <div class="main-dashboard bg-dark">
       <div className="dashboard my-5 h-100 flex-column">
         <div class="container">
-
           <div class="row">
             <span class="span-filler-dashboard">
             </span>
           </div>
-          <div class="row align-items-center my-5">
-            <div class="col-lg-7 dashboard-visuals">
-              <p>Dashboard Visuals</p>
+          <div class="row align-items-center">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4 dashboard-visuals">
+              <Box 
+              borderRadius="10"
+              >
+                <Doughnut
+                  data={data}
+                  options={{
+                    plugins: {
+                      legend: {
+                        labels: {
+                          color: '#F2F2F2'
+                        }
+                      }
+                    },
+                    layout: {
+                      padding: 5
+                    }
+                  }}
+                />
+              </Box>
             </div>
+            <div class="col-lg-1"></div>
 
             <div class="col-lg-5 dashboard-description">
               <h1 class="font-weight-light">Join a new session!</h1>
