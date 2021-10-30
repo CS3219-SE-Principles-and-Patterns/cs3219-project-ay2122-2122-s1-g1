@@ -1,14 +1,16 @@
-import "./Register.css";
-
 import React, { useState } from "react";
-
 import Form from "react-bootstrap/Form";
 import { axiosService } from '../service/axiosService'
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/actions';
+import "./Register.css";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   function validateForm() {
     return username.length > 0 && password.length > 0;
@@ -23,14 +25,12 @@ function Register() {
       password: password,
       isAdmin: false
     }).then((response) => {
-      console.log(response);
+      dispatch(login());
       history.push('/dashboard')
-    
     }, (error) => {
       console.log(error);
     });
   }
-  const history = useHistory();
 
   return (
     <div className="Register main-login bg-dark">

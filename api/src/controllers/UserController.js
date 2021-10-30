@@ -57,3 +57,31 @@ exports.addAnsweredQuestion = async (req, res) => {
         return res.status(500).json({ error: "Internal Server Error!" });
     }
 };
+
+exports.getUserData = async (req, res) => {
+    const user = req.user;
+    try { 
+        if (user === undefined) {
+            return res.status(500).json({ error: "Internal server error! user is undefined" });
+        }
+        if (user.username === undefined) {
+            return res.status(500).json({ error: "Internal server error! username is undefined" });
+        }
+
+        const filter = { username: user.username };
+
+        var userDB = await User.findOne(filter).exec();
+
+        if (userDB !== null) {
+            return res.status(200).json({
+                message: "Successful retrieval",
+                data: userDB.toJSON()
+            });
+        } else {
+            return res.status(500).json({ error: "Internal Server Error!" });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error!" });
+    }
+};
