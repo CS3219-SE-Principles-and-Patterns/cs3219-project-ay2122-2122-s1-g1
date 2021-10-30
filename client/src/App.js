@@ -18,18 +18,7 @@ class App extends Component {
     super(props);
     this.state = { apiResponse: "" };
   }
-
-  callAPI() {
-    fetch("http://localhost:5000/testAPI")
-      .then(res => res.text())
-      .then(res => this.setState({ apiResponse: res }))
-      .catch(err => err);
-  }
-
-  componentDidMount() {
-    this.callAPI();
-  }
-
+  
   render() {
     return (
       <div className="App">
