@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 // import styled from "styled-components";
 // import { __DATA__ } from "./DashboardData";
+import { axiosService } from '../service/axiosService'
 import { useHistory } from 'react-router-dom';
 import './Dashboard.css';
 
@@ -35,6 +36,54 @@ function Dashboard() {
     });
   }
 
+  const userData = [0,0,0];
+
+  const fetchToken = async () => {
+    return new Promise(async (resolve, reject) => {
+        const refreshToken = localStorage.getItem('refreshToken')
+        await axiosService.post('auth/refresh_token', {
+            refreshToken: refreshToken,
+          }).then((response) => {
+            console.log(response);
+            resolve(response);
+          }, (error) => {
+            console.log(error);
+            reject(error);
+          });
+      })
+  }
+  
+  const fetchData = async () => {
+    
+    const expireTime = localStorage.getItem('expireTime')
+    console.log(Date.now());
+    console.log(Date.now());
+    console.log(expireTime);
+    if (Date.now() >= expireTime) {
+      console.log("AAA");
+      await fetchToken();
+    }
+
+    const token = localStorage.getItem('accessToken')
+
+    console.log(token);
+    fetch(`http://localhost:8080/db-data/user`, {
+      method: "get",
+      headers: new Headers({
+        'x-auth-token': token
+      })
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        userData[0] = res.data.easyQuestionsDone.length;
+        userData[1] = res.data.mediumQuestionsDone.length;
+        userData[2] = res.data.hardQuestionsDone.length;
+        console.log(userData);
+      })
+        .catch((err) => console.error(err))
+  }
+
   const data = {
     labels: [
       'Easy',
@@ -43,7 +92,7 @@ function Dashboard() {
     ],
     datasets: [{
       label: 'Number Of Questions Done',
-      data: [300, 50, 100],
+      data: userData,
       backgroundColor: [
         'rgb(255, 99, 132)',
         'rgb(54, 162, 235)',
@@ -68,6 +117,7 @@ function Dashboard() {
               borderRadius="10"
               >
                 <Doughnut
+                  callback={fetchData()}
                   data={data}
                   options={{
                     plugins: {

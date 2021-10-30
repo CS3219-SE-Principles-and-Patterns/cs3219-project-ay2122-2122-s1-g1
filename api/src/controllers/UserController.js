@@ -60,15 +60,23 @@ exports.addAnsweredQuestion = async (req, res) => {
 
 exports.getUserData = async (req, res) => {
     const user = req.user;
+    console.log(JSON.stringify(user))
+    var username;
+    if (user.username !== undefined) {
+        username = user.username;
+    } 
+    if (user.user !== undefined && user.user.username !== undefined) {
+        username = user.user.username;
+    }
     try { 
         if (user === undefined) {
             return res.status(500).json({ error: "Internal server error! user is undefined" });
         }
-        if (user.username === undefined) {
+        if (username === undefined) {
             return res.status(500).json({ error: "Internal server error! username is undefined" });
         }
 
-        const filter = { username: user.username };
+        const filter = { username: username };
 
         var userDB = await User.findOne(filter).exec();
 

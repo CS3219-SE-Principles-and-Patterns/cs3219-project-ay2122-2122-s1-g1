@@ -18,7 +18,10 @@ axiosService.interceptors.request.use((config) => {
 axiosService.interceptors.response.use((response) => {
     console.log("Perform the response mani here: ", response)
     localStorage.setItem('accessToken', response.data["accessToken"]);
-    localStorage.setItem('refreshToken', response.data["refreshToken"]);
+    if (response.data["refreshToken"] != undefined) {
+        localStorage.setItem('refreshToken', response.data["refreshToken"]);
+    }
+    localStorage.setItem('expireTime', Date.now() + 10*60*1000);
     return response;
 }, (error) => {
     return Promise.reject(error.message);
