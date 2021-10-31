@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import styled from "styled-components";
 // import { __DATA__ } from "./DashboardData";
 import { axiosService } from '../service/axiosService'
@@ -36,7 +36,6 @@ function Dashboard() {
     });
   }
 
-  const userData = [0,0,0];
 
   const fetchToken = async () => {
     return new Promise(async (resolve, reject) => {
@@ -52,11 +51,10 @@ function Dashboard() {
           });
       })
   }
-  
+  const [userData, setUserData] = useState([]);
   const fetchData = async () => {
-    
+    const tempData = [];
     const expireTime = localStorage.getItem('expireTime')
-    console.log(Date.now());
     console.log(Date.now());
     console.log(expireTime);
     if (Date.now() >= expireTime) {
@@ -76,13 +74,19 @@ function Dashboard() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        userData[0] = res.data.easyQuestionsDone.length;
-        userData[1] = res.data.mediumQuestionsDone.length;
-        userData[2] = res.data.hardQuestionsDone.length;
-        console.log(userData);
+        tempData[0] = res.data.easyQuestionsDone.length;
+        tempData[1] = res.data.mediumQuestionsDone.length;
+        tempData[2] = res.data.hardQuestionsDone.length;
+        
+        setUserData(tempData);
+        
       })
         .catch((err) => console.error(err))
   }
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const data = {
     labels: [
@@ -117,7 +121,7 @@ function Dashboard() {
               borderRadius="10"
               >
                 <Doughnut
-                  callback={fetchData()}
+                  //callback={fetchData()}
                   data={data}
                   options={{
                     plugins: {
