@@ -6,9 +6,30 @@ import { useDispatch } from 'react-redux';
 import { login } from '../redux/actions';
 import "./Register.css";
 
+function useTrait(initialValue) {
+  const [trait, updateTrait] = useState(initialValue);
+
+  let current = trait;
+
+  const get = () => current;
+
+  const set = newValue => {
+     current = newValue;
+     updateTrait(newValue);
+     return current;
+  }
+
+  return {
+     get,
+     set,
+  }
+}
+
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  var registerError = useTrait(false);
+  var currentUsername = useTrait("");
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,6 +49,8 @@ function Register() {
       dispatch(login());
       history.push('/dashboard')
     }, (error) => {
+      registerError.set(true);
+      currentUsername.set(username);
       console.log(error);
     });
   }
@@ -63,6 +86,7 @@ function Register() {
           <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()}>
             Register
           </button>
+          { registerError.get() === true && <p style={{color: "#fd5e53"}}>Username {currentUsername.get()} is taken, please try a different username.</p>}
         </Form>
 
         <br />
