@@ -7,5 +7,5 @@ endpoints_api_service:
 
 resources:
   cpu: 1
-  memory_gb: 8
+  memory_gb: 6
   disk_size_gb: 20
