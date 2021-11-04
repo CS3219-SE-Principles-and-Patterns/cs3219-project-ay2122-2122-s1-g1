@@ -13,10 +13,46 @@ import Box from '@material-ui/core/Box';
 function Dashboard() {
   const history = useHistory();
 
-  const createRoom = () => {
-    socket.emit('join', 'EASY');
+  const fetchUsersAvailableQuestion = (difficulty) => {
+    return new Promise(async (resolve, reject) => {
+      const tempData = [];
+      const expireTime = localStorage.getItem('expireTime')
+      if (Date.now() >= expireTime) {
+        await fetchToken();
+      }
 
+      const token = localStorage.getItem('accessToken')
+
+      console.log(token);
+      var res = await fetch(`http://localhost:8080/db-data/user/${difficulty}`, {
+        method: "get",
+        headers: new Headers({
+          'x-auth-token': token
+        })
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("Res: " + res);
+        resolve(res.data);
+      })
+      .catch((err) => {
+        console.error(err)
+        reject(err);
+      })
+    })
+  }
+
+  const createRoom = async () => {
+    socket.emit('join', 'EASY');
     // socket.on('disconnect', console.log('disconnected'))
+
+    // getting list of questions that the user has not done based on difficulty, change the argument passed here
+    var listOfQuestions = await fetchUsersAvailableQuestion("easy");
+    
+    // logs to check, can remove later
+    for (var index in listOfQuestions) {
+      console.log(listOfQuestions[index]);
+    }
 
     socket.on('connected', ({ roomId, connectedUser }) => {
       // document.cookie = `roomId=${roomId}`;
@@ -51,7 +87,9 @@ function Dashboard() {
           });
       })
   }
+
   const [userData, setUserData] = useState([]);
+
   const fetchData = async () => {
     const tempData = [];
     const expireTime = localStorage.getItem('expireTime')

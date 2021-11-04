@@ -85,7 +85,8 @@ function Login() {
           <button class="btn btn-primary my-4" block type="submit" disabled={!validateForm()}>
             Login
           </button>
-          { loginError.get() === true && <p style={{color: "#fd5e53"}}>Invalid username or password, please try again. (count: {count.get()})</p>}        </Form>
+          { loginError.get() === true && <p style={{color: "#fd5e53"}}>Invalid username or password, please try again. (count: {count.get()})</p>}       
+          </Form>
         <div class="sign-up-a">
           <a href="/register">Sign up</a>
         </div>
