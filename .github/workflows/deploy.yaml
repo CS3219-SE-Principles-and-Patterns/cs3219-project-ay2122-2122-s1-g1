@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - branch_ch_GCP_deployment
+      - philip/deploy_frontend
 jobs:
   deployGAE:
     name: deploy frontend on GAE
