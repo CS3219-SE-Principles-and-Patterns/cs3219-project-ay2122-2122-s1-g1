@@ -13,5 +13,6 @@ router.put("/updateQuestion", QuestionController.updateQuestion);
 // Users
 router.put("/updateUser", Middleware.checkAuthenticated, UserController.addAnsweredQuestion);
 router.get("/user", Middleware.checkAuthenticated, UserController.getUserData);
+router.get("/user/:difficulty", Middleware.checkAuthenticated, UserController.getQuestionsNotDoneBy);
 
 module.exports = router;
