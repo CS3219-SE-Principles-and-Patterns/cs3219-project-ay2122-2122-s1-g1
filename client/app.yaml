@@ -2,10 +2,10 @@ runtime: nodejs
 env: flex
 
 endpoints_api_service:
-  name: cs3219-peerprep-330604.appspot.com
+  name: cs3219-peerprep-330604.as.r.appspot.com
   rollout_strategy: managed
 
 resources:
   cpu: 1
   memory_gb: 6
-  disk_size_gb: 20
+  disk_size_gb: 12
