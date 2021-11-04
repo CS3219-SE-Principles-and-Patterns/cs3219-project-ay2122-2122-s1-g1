@@ -20,7 +20,10 @@ exports.addQuestion = async (req, res) => {
             questionNumber:         req.body.number,
             questionName:           req.body.name,
             difficulty:             req.body.difficulty,
-            questionDescription:    req.body.description
+            questionDescription:    req.body.description,
+            sampleInput:            req.body.sampleInput,
+            sampleOutput:           req.body.sampleOutput,
+            sampleExplanation:      req.body.sampleExplanation,
         });
         var qns = await question.save();
         if (qns === question) {
@@ -67,7 +70,10 @@ exports.updateQuestion = async (req, res) => {
         const update = {
             questionName:           req.body.name,
             difficulty:             req.body.difficulty,
-            questionDescription:    req.body.description
+            questionDescription:    req.body.description,
+            sampleInput:            req.body.sampleInput,
+            sampleOutput:           req.body.sampleOutput,
+            sampleExplanation:      req.body.sampleExplanation
         };
 
         var qns = await Question.findOneAndUpdate(filter, update, {

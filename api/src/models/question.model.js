@@ -19,6 +19,15 @@ var questionSchema = new mongoose.Schema({
     questionDescription: {
         type: String,
         required: true
+    },
+    sampleInput: {
+        type: String
+    },
+    sampleOutput: {
+        type: String
+    },
+    sampleExplanation: {
+        type: String
     }
 });
 
