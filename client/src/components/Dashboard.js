@@ -42,12 +42,12 @@ function Dashboard() {
     })
   }
 
-  const createRoom = async () => {
+  const createRoom = async (difficulty) => {
     // socket.on('disconnect', console.log('disconnected'))
 
     // getting list of questions that the user has not done based on difficulty, change the argument passed here
-    var listOfQuestions = await fetchUsersAvailableQuestion("easy").then(res => {
-      socket.emit('join', 'EASY');
+    var listOfQuestions = await fetchUsersAvailableQuestion(difficulty).then(res => {
+      socket.emit('join', difficulty);
     });
 
     // logs to check, can remove later
@@ -185,17 +185,17 @@ function Dashboard() {
 
               <br />
 
-              <button class="btn btn-lg btn-easy btn-success rounded-pill" size="lg" onClick={createRoom}>
+              <button class="btn btn-lg btn-easy btn-success rounded-pill" size="lg" onClick={() => createRoom('easy')}>
                 Easy
               </button>
 
-              {/* <button class="btn btn-lg btn-medium btn-warning rounded-pill" size="lg" onClick={() => history.push('/editor')}>
+              <button class="btn btn-lg btn-medium btn-warning rounded-pill" size="lg" onClick={() => createRoom('medium')}>
                 Medium
               </button>
               
-              <button class="btn btn-lg btn-hard btn-danger rounded-pill" size="lg" onClick={() => history.push('/editor')}>
+              <button class="btn btn-lg btn-hard btn-danger rounded-pill" size="lg" onClick={() => createRoom('hard')}>
                 Hard
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
