@@ -1,1 +1,10 @@
-runtime: nodejs14
+# runtime: nodejs14
+
+# # Update with Redis instance details
+# env_variables:
+#   REDISHOST: '10.79.94.251'
+#   REDISPORT: '6379'
+
+# # Update with Serverless VPC Access connector details
+# vpc_access_connector:
+#   name: 'projects/peerprep-330010/locations/asia-southeast1/connectors/redisconnector'

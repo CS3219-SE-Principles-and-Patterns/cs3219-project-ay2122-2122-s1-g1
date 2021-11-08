@@ -1,5 +1,11 @@
 const redis = require("redis");
-const client = redis.createClient();
+
+const REDISHOST = process.env.REDISHOST || 'localhost';
+const REDISPORT = process.env.REDISPORT || 6379;
+
+console.log("REDISTHOST, port: ", REDISHOST, REDISPORT)
+
+const client = redis.createClient(REDISPORT, REDISHOST);
 const DEFAULT_EXPIRATION = 86400; // 1 day
 
 client.on("error", function(error) {
