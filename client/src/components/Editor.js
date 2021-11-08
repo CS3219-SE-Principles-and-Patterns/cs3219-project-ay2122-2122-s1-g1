@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { socket } from '../service/socket';
-import * as api from '../api';
 import './Editor.css';
 
 function Editor() {
@@ -14,12 +13,19 @@ function Editor() {
   const location = useLocation();
 
   useEffect(() => {
-    api.chatMessage((err, text) => {
-      console.log(text);
-      var textarea = document.getElementById('textarea');
+    const textarea = document.getElementById('textarea');
+    textarea.addEventListener('keyup', function (e) {
+      e.preventDefault();
+      if (textarea.value) {
+        const roomId = sessionStorage.getItem('roomId');
+        socket.emit('chatMessage', { roomId: roomId, message: textarea.value });
+      }
+    });
+  
+    socket.on('chatMessage', (text) => {
       textarea.value = text;
       setText(text);
-    }, document.getElementById('textarea'));
+    });
 
     socket.on('disconnectAll', () => {
       history.push('/dashboard');
