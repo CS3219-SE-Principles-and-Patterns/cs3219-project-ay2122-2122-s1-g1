@@ -25,15 +25,14 @@ const io = require('socket.io')(server, {
   }
 });
 
-var rooms = {} // maps roomId to noOfUsers
-var chatRooms = {} // maps roomId to chat messages?
+var rooms = {}
+
 /*
   {
-    'chatRoomId': [
-      { 'sender': '', 'text': ''},
-      { 'sender': '', 'text': ''},
-      { 'sender': '', 'text': ''},
-    ]
+    'roomId': {
+      'messages': []
+      'users': 2
+    }
   }
 */
 var roomIdToQuestions = {}
@@ -41,8 +40,8 @@ var roomIdToQuestions = {}
 io.on('connection', (client) => {
   console.log(`client [${client.id}] connected`);
 
-  client.on('chatMessage', (data) => {
-    io.to(data.roomId).emit('chatMessage', data.message);
+  client.on('editorUpdate', (data) => {
+    io.to(data.roomId).emit('editorUpdate', data.message);
   });
 
   client.on('join', ({ difficulty, questions }) => {
@@ -50,10 +49,15 @@ io.on('connection', (client) => {
     if (rooms) {
       // iterate current rooms and join if possible
       for (const [key, value] of Object.entries(rooms)) {
-        if (key.includes(difficulty.concat('-')) && value < 2) {
+        if (key.includes(difficulty.concat('-')) && value['users'] < 2) {
           client.join(key);
-          rooms[roomId] = 2;
+          rooms[key]['users'] = 2;
           console.log(`client [${client.id}] has joined existing room [${key}]`);
+
+          // const chatRoomId = rooms[key]['chatRoomId'];
+          // client.join(chatRoomId);
+          // console.log(`client [${client.id}] has joined existing room's chat room [${rooms[key]['chatRoomId']}]`);
+
           hasJoined = true;
 
           // choose a question available in room roomId
@@ -72,15 +76,32 @@ io.on('connection', (client) => {
 
     if (!hasJoined) {
       console.log('creating new room...');
-      roomId = difficulty.concat('-', uuidv4());
+
+      const roomId = difficulty.concat('-', uuidv4());
       client.join(roomId);
-      rooms[roomId] = 1;
+      rooms[roomId] = {};
+      rooms[roomId]['users'] = 1;
+      rooms[roomId]['messages'] = [];
       console.log(`client [${client.id}] has created and joined room [${roomId}]`);
+
+      // const chatRoomId = difficulty.concat('-', uuidv4());
+      // client.join(chatRoomId);
+      // rooms[roomId]['chatRoomId'] = chatRoomId;
+      // console.log(`client [${client.id}] has created and joined chat room [${chatRoomId}]`);
+
+      console.log(rooms);
+
       hasJoined = true;
       roomIdToQuestions[roomId] = questions;
       io.to(roomId).emit('connected', { roomId: roomId, connectedUser: 1 });
     }
   });
+
+  client.on('sendMessage', ({ roomId, message, username }) => {
+    rooms[roomId]['messages'].push({ username, message });
+    console.log('Received message:' + message);
+    io.to(roomId).emit('receiveMessage', { username, message });
+  })
 
   client.on('endSession', ({ roomId }) => {
     // remove room maintained

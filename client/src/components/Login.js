@@ -44,6 +44,7 @@ function Login() {
       password: password,
     }).then(async (response) => {
       console.log("Response status: " + response.status);
+      sessionStorage.setItem('username', username);
       dispatch(login());
       history.push('/dashboard');
     }, (error) => {

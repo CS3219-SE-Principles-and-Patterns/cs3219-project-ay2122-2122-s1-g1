@@ -54,10 +54,8 @@ function Dashboard() {
     });
 
     socket.on('connected', ({ roomId, connectedUser }) => {
-      // document.cookie = `roomId=${roomId}`;
       sessionStorage.setItem('roomId', roomId);
-      console.log(`no of connected users: ${connectedUser}`);
-
+      // sessionStorage.setItem('chatRoomId', chatRoomId);
       if (connectedUser == 1) {
         history.push({ pathname: '/loading', state: { roomId: roomId } });
       }
@@ -65,6 +63,7 @@ function Dashboard() {
 
     socket.on('matched', ({ roomId, connectedUser, question }) => {
       sessionStorage.setItem('roomId', roomId);
+      // sessionStorage.setItem('chatRoomId', chatRoomId);
       if (connectedUser == 2) {
         history.push({ pathname: '/editor', state: { roomId: roomId, question: question } });
       }

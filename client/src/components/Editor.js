@@ -20,11 +20,12 @@ function Editor() {
       e.preventDefault();
       if (textarea.value) {
         const roomId = sessionStorage.getItem('roomId');
-        socket.emit('chatMessage', { roomId: roomId, message: textarea.value });
+        socket.emit('editorUpdate', { roomId: roomId, message: textarea.value });
       }
     });
 
-    socket.on('chatMessage', (text) => {
+    socket.on('editorUpdate', (text) => {
+      console.log(text);
       textarea.value = text;
       setText(text);
     });
@@ -39,10 +40,10 @@ function Editor() {
   }
 
   const toggleChat = () => {
-    if (document.getElementById("myChat").style.display == "block") {
-      document.getElementById("myChat").style.display = "none";
-    } else {
+    if (document.getElementById("myChat").style.display == "none") {
       document.getElementById("myChat").style.display = "block";
+    } else {
+      document.getElementById("myChat").style.display = "none";
     }
   }
 
@@ -98,25 +99,11 @@ function Editor() {
           <div class="row">
             <div class="col">
               <div class="chat-popup" id="myChat">
-                <Chat />
+                <Chat roomId={location.state.roomId} />
               </div>
             </div>
           </div>
         </div>
-
-        {/* <button class="open-button" onClick={openChat}>Chat</button>
-        <div class="chat-popup" id="myChat">
-          <form action="/action_page.php" class="form-container">
-            <label for="msg"><b>Title</b></label>
-            <p>text1</p>
-            <p>text1</p>
-            <p>text1</p>
-            <textarea placeholder="Type message.." name="msg" required></textarea>
-
-            <button type="submit" class="btn">Send</button>
-            <button type="button" class="btn cancel" onClick={closeChat}>Close</button>
-          </form>
-        </div> */}
       </div>
 
     </div>

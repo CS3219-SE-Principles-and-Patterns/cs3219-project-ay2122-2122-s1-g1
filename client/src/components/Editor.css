@@ -7,7 +7,7 @@
 }
 
 .main-editor {
-  height: 100vh;
+  height: 120vh;
 }
 
 .end-session {
@@ -37,19 +37,16 @@
   margin-top: 10px;
   background-color: #ffffff;
   bottom: 80px;
-  display: none;
-  /* position: relative; */
   border-radius: 10px;
+  display: block;
   height: 300px;
   float: right;
   width: 100%;
   color: #282c34;
-  /* text-align: right; */
 }
 
 .open-button {
   bottom: 80px;
-  /* display: none; */
   border-radius: 10px;
   position: fixed;
   margin-left: 80%;

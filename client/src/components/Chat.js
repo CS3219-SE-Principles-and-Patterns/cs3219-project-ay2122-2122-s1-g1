@@ -2,9 +2,40 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { socket } from '../service/socket';
+import Message from "./Message";
 import './Chat.css';
 
-function Chat() {
+function Chat(props) {
+  const [messages, setMessages] = useState([]);
+  const username = sessionStorage.getItem('username');
+
+  useEffect(() => {
+    const addMessage = ({ username, message }) => {
+      setMessages([...messages, { username, message }]);
+      const panel = document.getElementById("panel-body");
+      panel.scrollTop = panel.scrollHeight;
+    }
+
+    socket.on('receiveMessage', addMessage);
+
+    return () => {
+      socket.off("receiveMessage", addMessage);
+    };
+  });
+
+
+  const sendMessage = () => {
+    const message = document.getElementById('message-input').value;
+    document.getElementById('message-input').value = '';
+    socket.emit('sendMessage', { roomId: props.roomId, message: message, username: username });
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      sendMessage();
+    }
+  }
+
   return (
     <div class="container">
       <div class="row">
@@ -17,60 +48,18 @@ function Chat() {
                 </button>
               </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="panel-body">
               <ul class="chat">
-                <li class="left clearfix">
-                  <div class="chat-body clearfix">
-                    <div class="header">
-                      <strong class="primary-font">Jack Sparrow</strong>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                      dolor, quis ullamcorper ligula sodales.
-                    </p>
-                  </div>
-                </li>
-                <li class="right clearfix">
-                  <div class="chat-body clearfix">
-                    <div class="header">
-                      <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                      dolor, quis ullamcorper ligula sodales.
-                    </p>
-                  </div>
-                </li>
-                <li class="left clearfix">
-                  <div class="chat-body clearfix">
-                    <div class="header">
-                      <strong class="primary-font">Jack Sparrow</strong>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                      dolor, quis ullamcorper ligula sodales.
-                    </p>
-                  </div>
-                </li>
-                <li class="right clearfix">
-                  <div class="chat-body clearfix">
-                    <div class="header">
-                      <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                      dolor, quis ullamcorper ligula sodales.
-                    </p>
-                  </div>
-                </li>
+                {messages.map(({ username, message }) => (
+                  <Message message={message} username={username} />
+                ))}
               </ul>
             </div>
             <div class="panel-footer">
               <div class="input-group">
-                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                <input id="message-input" type="text" class="form-control input" placeholder="Type your message here..." onKeyDown={handleKeyDown} />
                 <span class="input-group-btn">
-                  <button class="btn btn-warning" id="btn-chat">
-                    Send</button>
+                  <button type="submit" class="btn btn-warning" id="btn-chat" onClick={sendMessage}>Send</button>
                 </span>
               </div>
             </div>
