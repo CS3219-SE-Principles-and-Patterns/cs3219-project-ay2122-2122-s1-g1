@@ -15,24 +15,14 @@ function Editor() {
 
 
   useEffect(() => {
-    const loopUpdate = (text, roomId) => {
-      setTimeout(function () {
-        socket.emit('chatMessage', { roomId: roomId, message: text });
-        loopUpdate();
-      }, 2000);
-    }
-
     const textarea = document.getElementById('textarea');
-    const text = textarea.value ? textarea.value : '';
-    const roomId = sessionStorage.getItem('roomId');
-    loopUpdate(text, roomId);
-    // textarea.addEventListener('keyup', function (e) {
-    //   e.preventDefault();
-    //   if (textarea.value) {
-    //     const roomId = sessionStorage.getItem('roomId');
-    //     socket.emit('chatMessage', { roomId: roomId, message: textarea.value });
-    //   }
-    // });
+    textarea.addEventListener('keyup', function (e) {
+      e.preventDefault();
+      if (textarea.value) {
+        const roomId = sessionStorage.getItem('roomId');
+        socket.emit('chatMessage', { roomId: roomId, message: textarea.value });
+      }
+    });
 
     socket.on('chatMessage', (text) => {
       textarea.value = text;
