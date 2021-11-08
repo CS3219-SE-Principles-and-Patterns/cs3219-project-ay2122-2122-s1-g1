@@ -13,7 +13,7 @@ function CollaborativeEditor(props) {
     CollaborativeEditor.propTypes = {
         userName: PropTypes.string,
         roomId: PropTypes.string,
-      }
+    }
 
     const { userName, roomId } = props
     const [EditorRef, setEditorRef] = useState(null);
@@ -61,41 +61,43 @@ function CollaborativeEditor(props) {
             };
         }
     }, [EditorRef]);
+
+    const style = {
+      display: "flex",
+      height: "100%",
+      width: "100%",
+      fontSize: "18px",
+      overflowY: "auto",
+    }
+
+    const options = {
+      mode: "text/javascript", //this is for c++,  you can visit https://github.com/atharmohammad/Code-N-Collab/blob/master/src/Function/languageMapper.js  for other language types
+      theme: "monokai", 
+      lineWrapping: true,
+      smartIndent: true,
+      lineNumbers: true,
+      foldGutter: true,
+      tabSize: 2,
+      gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+      autoCloseTags: true,
+      matchBrackets: true,
+      autoCloseBrackets: true,
+      extraKeys: {
+        "Ctrl-Space": "autocomplete",
+      },
+    }
     
     return (
-        <div
-          style={{
-            display: "flex",
-            height: "100%",
-            width: "100%",
-            fontSize: "20px",
-            overflowY: "auto",
-          }}
-        >
+        <div style={style}>
           <CodeMirrorEditor
             onChange={(editor, data, value) => {
               setCode(value);
             }}
             autoScroll
-            options={{
-              mode: "text/javascript", //this is for c++,  you can visit https://github.com/atharmohammad/Code-N-Collab/blob/master/src/Function/languageMapper.js  for other language types
-              theme: "monokai", 
-              lineWrapping: true,
-              smartIndent: true,
-              lineNumbers: true,
-              foldGutter: true,
-              tabSize: 2,
-              gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-              autoCloseTags: true,
-              matchBrackets: true,
-              autoCloseBrackets: true,
-              extraKeys: {
-                "Ctrl-Space": "autocomplete",
-              },
-            }}
+            options={options}
             editorDidMount={(editor) => {
               handleEditorDidMount(editor);
-              editor.setSize("100vw", "100%");
+              editor.setSize(1000, 500);
             }}
           />
         </div>
