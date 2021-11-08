@@ -12,8 +12,8 @@ function Loading() {
   useEffect(() => {
     const roomId = location.state.roomId;
 
-    socket.on('matched', ({ roomId }) => {
-      history.push({ pathname: '/editor', state: { roomId: roomId } });
+    socket.on('matched', ({ roomId, connectedUser, question }) => {
+      history.push({ pathname: '/editor', state: { roomId: roomId, question: question } });
     })
   });
 

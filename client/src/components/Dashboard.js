@@ -46,14 +46,12 @@ function Dashboard() {
     // socket.on('disconnect', console.log('disconnected'))
 
     // getting list of questions that the user has not done based on difficulty, change the argument passed here
-    var listOfQuestions = await fetchUsersAvailableQuestion(difficulty).then(res => {
-      socket.emit('join', difficulty);
+    var listOfQuestions = await fetchUsersAvailableQuestion(difficulty).then(questions => {
+      for (var index in questions) {
+        console.log(questions[index]);
+      }
+      socket.emit('join', { difficulty: difficulty, questions: questions });
     });
-
-    // logs to check, can remove later
-    for (var index in listOfQuestions) {
-      console.log(listOfQuestions[index]);
-    }
 
     socket.on('connected', ({ roomId, connectedUser }) => {
       // document.cookie = `roomId=${roomId}`;
@@ -65,10 +63,10 @@ function Dashboard() {
       }
     });
 
-    socket.on('matched', ({ roomId, connectedUser }) => {
+    socket.on('matched', ({ roomId, connectedUser, question }) => {
       sessionStorage.setItem('roomId', roomId);
       if (connectedUser == 2) {
-        history.push({ pathname: '/editor', state: { roomId: roomId } });
+        history.push({ pathname: '/editor', state: { roomId: roomId, question: question } });
       }
     });
   }
@@ -192,7 +190,7 @@ function Dashboard() {
               <button class="btn btn-lg btn-medium btn-warning rounded-pill" size="lg" onClick={() => createRoom('medium')}>
                 Medium
               </button>
-              
+
               <button class="btn btn-lg btn-hard btn-danger rounded-pill" size="lg" onClick={() => createRoom('hard')}>
                 Hard
               </button>

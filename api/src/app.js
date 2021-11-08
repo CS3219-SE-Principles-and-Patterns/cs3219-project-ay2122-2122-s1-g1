@@ -25,6 +25,8 @@ const io = require('socket.io')(server, {
   }
 });
 
+var roomIdToQuestions = {}
+
 io.on('connection', (client) => {
   console.log(`client [${client.id}] connected`);
 
@@ -33,7 +35,7 @@ io.on('connection', (client) => {
     // console.log(`emitting to room [${data.roomId} with message: ${data.message}]`)
   });
 
-  client.on('join', (difficulty) => {
+  client.on('join', ({ difficulty, questions }) => {
     var hasJoined = false;
     if (io.sockets.adapter.rooms != null) {
       const rooms = io.sockets.adapter.rooms;
@@ -44,7 +46,21 @@ io.on('connection', (client) => {
           client.join(key);
           console.log(`client [${client.id}] has joined existing room [${key}]`);
           hasJoined = true;
-          io.to(key).emit('matched', { roomId: key, connectedUser: 2 });
+
+          // choose a question available in room roomId
+          const availableQuestions = roomIdToQuestions[key];
+          const filteredQuestions = availableQuestions.filter(q => {
+            return questions.map(p => p._id).includes(q._id);
+          });
+
+          // if (!filteredQuestions) {
+          // redirect ??
+          // }
+
+          const chosenQuestion = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
+
+
+          io.to(key).emit('matched', { roomId: key, connectedUser: 2, question: chosenQuestion });
         }
       }
     }
@@ -55,6 +71,9 @@ io.on('connection', (client) => {
       client.join(roomId);
       console.log(`client [${client.id}] has created and joined room [${roomId}]`);
       hasJoined = true;
+      console.log('questions');
+      console.log(questions);
+      roomIdToQuestions[roomId] = questions;
       io.to(roomId).emit('connected', { roomId: roomId, connectedUser: 1 });
     }
   });

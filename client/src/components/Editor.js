@@ -11,8 +11,7 @@ function Editor() {
 
   const history = useHistory();
   const location = useLocation();
-
-
+  const question = location.state.question;
 
   useEffect(() => {
     const textarea = document.getElementById('textarea');
@@ -49,22 +48,31 @@ function Editor() {
 
           <div class="row">
             <div class="col-lg-5">
-              <h3>1. Two Sum</h3>
-              <h6>Easy</h6>
+              <h3>{question.questionNumber}. {question.questionName}</h3>
+              <h6>{question.difficulty.toUpperCase()}</h6>
               <div class="my-4">
                 <p>
-                  Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-                  You may assume that each input would have exactly one solution, and you may not use the same element twice.
-                  You can return the answer in any order.
+                  {question.questionDescription}
                 </p>
               </div>
 
-              <div class="my-4">
-                <p>Input: nums = [2,7,11,15], target = 9</p>
-                <p>Output: [0,1]</p>
-                <p>Output: Because nums[0] + nums[1] == 9, we return [0, 1]</p>
+              <div class="my-5">
+                <p>Sample Input</p>
+                <p class="code-text">{question.sampleInput}</p>
+              </div>
+
+              <div class="my-5">
+                <p>Sample Output</p>
+                <p class="code-text">{question.sampleOutput}</p>
+              </div>
+
+              
+              <div class="my-5">
+                <p>Sample Explanation</p>
+                <p class="code-text">{question.sampleExplanation}</p>
               </div>
             </div>
+
             <div class="col-lg-7">
               <h2>
                 Answer:
