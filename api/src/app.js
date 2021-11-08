@@ -25,6 +25,7 @@ const io = require('socket.io')(server, {
   }
 });
 
+var rooms = {} // maps roomId to noOfUsers
 var roomIdToQuestions = {}
 
 io.on('connection', (client) => {
@@ -32,33 +33,27 @@ io.on('connection', (client) => {
 
   client.on('chatMessage', (data) => {
     io.to(data.roomId).emit('chatMessage', data.message);
-    // console.log(`emitting to room [${data.roomId} with message: ${data.message}]`)
   });
 
   client.on('join', ({ difficulty, questions }) => {
     var hasJoined = false;
-    if (io.sockets.adapter.rooms != null) {
-      const rooms = io.sockets.adapter.rooms;
-
+    if (rooms) {
       // iterate current rooms and join if possible
-      for (const [key, value] of rooms.entries()) {
-        if (key.includes(difficulty.concat('-')) && value.size < 2) {
+      for (const [key, value] of Object.entries(rooms)) {
+        if (key.includes(difficulty.concat('-')) && value < 2) {
           client.join(key);
+          rooms[roomId] = 2;
           console.log(`client [${client.id}] has joined existing room [${key}]`);
           hasJoined = true;
 
           // choose a question available in room roomId
           const availableQuestions = roomIdToQuestions[key];
-          const filteredQuestions = availableQuestions.filter(q => {
-            return questions.map(p => p._id).includes(q._id);
-          });
-
-          // if (!filteredQuestions) {
-          // redirect ??
-          // }
-
+          const filteredQuestions = availableQuestions.filter(q => { return questions.map(p => p._id).includes(q._id); });
           const chosenQuestion = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
 
+          // if (!filteredQuestions) {
+          //   redirect
+          // }
 
           io.to(key).emit('matched', { roomId: key, connectedUser: 2, question: chosenQuestion });
         }
@@ -69,16 +64,17 @@ io.on('connection', (client) => {
       console.log('creating new room...');
       roomId = difficulty.concat('-', uuidv4());
       client.join(roomId);
+      rooms[roomId] = 1;
       console.log(`client [${client.id}] has created and joined room [${roomId}]`);
       hasJoined = true;
-      console.log('questions');
-      console.log(questions);
       roomIdToQuestions[roomId] = questions;
       io.to(roomId).emit('connected', { roomId: roomId, connectedUser: 1 });
     }
   });
 
   client.on('endSession', ({ roomId }) => {
+    // remove room maintained
+    delete rooms[roomId];
     io.to(roomId).emit('disconnectAll');
   })
 })
