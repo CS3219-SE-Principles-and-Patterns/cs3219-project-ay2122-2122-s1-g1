@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { socket } from '../service/socket';
+import Chat from "./Chat";
 import './Editor.css';
 
 function Editor() {
@@ -37,9 +38,17 @@ function Editor() {
     socket.emit('endSession', { roomId: location.state.roomId });
   }
 
+  const toggleChat = () => {
+    if (document.getElementById("myChat").style.display == "block") {
+      document.getElementById("myChat").style.display = "none";
+    } else {
+      document.getElementById("myChat").style.display = "block";
+    }
+  }
+
   return (
     <div class="main-editor bg-dark">
-      <div className="editor bg-dark my-5 h-100 flex-column">
+      <div className="editor bg-dark h-100 flex-column">
         <div class="container">
           <div class="row">
             <span class="span-filler-editor">
@@ -66,7 +75,7 @@ function Editor() {
                 <p class="code-text">{question.sampleOutput}</p>
               </div>
 
-              
+
               <div class="my-5">
                 <p>Sample Explanation</p>
                 <p class="code-text">{question.sampleExplanation}</p>
@@ -79,16 +88,37 @@ function Editor() {
               </h2>
               <textarea class="form-control" id="textarea" rows="15"></textarea>
               <ul id="messages"></ul>
+              <div class="col end-session">
+                <button type="button" class="btn btn-primary chat-button" onClick={toggleChat}>Toggle chat</button>
+                <button type="button" class="btn btn-danger end-session-button" onClick={endSession}>End session</button>
+              </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="col end-session">
-              <button type="button" class="btn btn-danger end-session-button" onClick={endSession}>End session</button>
+            <div class="col">
+              <div class="chat-popup" id="myChat">
+                <Chat />
+              </div>
             </div>
           </div>
         </div>
+
+        {/* <button class="open-button" onClick={openChat}>Chat</button>
+        <div class="chat-popup" id="myChat">
+          <form action="/action_page.php" class="form-container">
+            <label for="msg"><b>Title</b></label>
+            <p>text1</p>
+            <p>text1</p>
+            <p>text1</p>
+            <textarea placeholder="Type message.." name="msg" required></textarea>
+
+            <button type="submit" class="btn">Send</button>
+            <button type="button" class="btn cancel" onClick={closeChat}>Close</button>
+          </form>
+        </div> */}
       </div>
+
     </div>
 
   );
