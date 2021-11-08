@@ -1,10 +1,13 @@
+import './Home.css';
+
 import React from "react";
 import logo from '../assets/img/peerprep.png';
 import { useHistory } from 'react-router-dom';
-import './Home.css';
+import { useSelector } from "react-redux";
 
 function Home() {
   const history = useHistory();
+  const isLogged = useSelector(state => state.isLogged);
 
   return (
     <div class="main-home bg-dark">
@@ -30,9 +33,11 @@ function Home() {
                 
                 <br />
 
-                <div class='register-btn-div'>
+                {isLogged ? <div></div> : <div class='register-btn-div'>
                   <button type="button" class="btn btn-info btn-lg rounded-pill" onClick={() => history.push('/register')}>Register</button>
-                </div>
+                </div> }
+
+                
               </div>
             </div>
           </div>
