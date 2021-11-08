@@ -26,6 +26,16 @@ const io = require('socket.io')(server, {
 });
 
 var rooms = {} // maps roomId to noOfUsers
+var chatRooms = {} // maps roomId to chat messages?
+/*
+  {
+    'chatRoomId': [
+      { 'sender': '', 'text': ''},
+      { 'sender': '', 'text': ''},
+      { 'sender': '', 'text': ''},
+    ]
+  }
+*/
 var roomIdToQuestions = {}
 
 io.on('connection', (client) => {
