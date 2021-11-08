@@ -3,11 +3,11 @@
 }
 
 .span-filler-editor {
-  height: 5vh;
+  height: 8vh;
 }
 
 .main-editor {
-  height: 100vh;
+  height: 120vh;
 }
 
 .end-session {
@@ -18,4 +18,43 @@
   width: 150px;
   margin: 0;
   padding: 0;
+}
+
+.code-text {
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+.margin-0 {
+  margin: 0;
+  padding: 0;
+}
+
+#myChat {
+  background-color: #282c34;
+}
+
+.chat-popup {
+  margin-top: 10px;
+  background-color: #ffffff;
+  bottom: 80px;
+  border-radius: 10px;
+  display: block;
+  height: 300px;
+  float: right;
+  width: 100%;
+  color: #282c34;
+}
+
+.open-button {
+  bottom: 80px;
+  border-radius: 10px;
+  position: fixed;
+  margin-left: 80%;
+  width: 100px;
+  background-color: azure;
+}
+
+.input-group {
+  position: absolute;
+  bottom: 0;
 }
