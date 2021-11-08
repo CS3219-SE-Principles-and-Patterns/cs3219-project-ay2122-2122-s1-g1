@@ -6,10 +6,11 @@ import { WebrtcProvider } from "y-webrtc";
 import "./CollaborativeEditor.css";
 import RandomColor from "randomcolor";
 import "./CollaborativeEditorAddons";
+import PropTypes from 'prop-types';
 
-function CollaborativeEditor() {
+function CollaborativeEditor(props) {
 
-    CodeEditor.propTypes = {
+    CollaborativeEditor.propTypes = {
         userName: PropTypes.string,
         roomId: PropTypes.string,
       }
