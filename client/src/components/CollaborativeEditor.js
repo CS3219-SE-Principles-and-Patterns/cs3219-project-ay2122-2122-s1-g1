@@ -9,6 +9,12 @@ import "./CollaborativeEditorAddons";
 
 function CollaborativeEditor() {
 
+    CodeEditor.propTypes = {
+        userName: PropTypes.string,
+        roomId: PropTypes.string,
+      }
+
+    const { userName, roomId } = props
     const [EditorRef, setEditorRef] = useState(null);
     const [code, setCode] = useState(
       `function main() {\n  console.log("Hello World");\n  var a = a + b;\n  return null;\n}`
@@ -24,7 +30,7 @@ function CollaborativeEditor() {
 
             let provider = null;
             try {
-                provider = new WebrtcProvider("Any Room Name" , ydoc);
+                provider = new WebrtcProvider(roomId, ydoc);
 
                 const yText = ydoc.getText("codemirror");
                 
@@ -35,7 +41,7 @@ function CollaborativeEditor() {
                 const color = RandomColor(); //Provied any random color to be used for each user
                 
                 awareness.setLocalStateField("user", {
-                    name: "Users Name",
+                    name: userName,
                     color: color,
                 });
                 
@@ -48,8 +54,8 @@ function CollaborativeEditor() {
             }
             return () => {
                 if (provider) {
-                provider.disconnect(); //We destroy doc we created and disconnect 
-                ydoc.destroy();  //the provider to stop propagting changes if user leaves editor
+                    provider.disconnect(); //We destroy doc we created and disconnect
+                    ydoc.destroy();  //the provider to stop propagting changes if user leaves editor
                 }
             };
         }
