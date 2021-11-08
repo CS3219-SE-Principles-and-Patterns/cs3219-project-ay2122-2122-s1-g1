@@ -1,4 +1,4 @@
-name: Deploy to Google App Engine and Heroku
+name: Deploy Frontend to Google App Engine
 on:
   push:
     branches:
@@ -7,13 +7,12 @@ on:
 jobs:
   deployGAE:
     name: deploy frontend on GAE
-    env:
-      working-directory: ./client
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: google-github-actions/deploy-appengine@main
         with:
-          project: ${{ secrets.GCP_PROJECT_FRONTEND }}
-          deliverables: ./client/app.yaml
+          project_id: ${{ secrets.GCP_PROJECT_FRONTEND }}
+          working_directory: ./client
+          deliverables: ./app.yaml
           credentials: ${{ secrets.GCP_CREDENTIALS_FRONTEND }}
