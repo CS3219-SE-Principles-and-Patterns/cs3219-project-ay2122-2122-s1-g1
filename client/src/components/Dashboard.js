@@ -24,7 +24,7 @@ function Dashboard() {
       const token = localStorage.getItem('accessToken')
 
       console.log(token);
-      var res = await fetch(`http://localhost:8080/db-data/user/${difficulty}`, {
+      var res = await fetch(`https://peerprep-330010.as.r.appspot.com/db-data/user/${difficulty}`, {
         method: "get",
         headers: new Headers({
           'x-auth-token': token
@@ -103,7 +103,7 @@ function Dashboard() {
     const token = localStorage.getItem('accessToken')
 
     console.log(token);
-    fetch(`http://localhost:8080/db-data/user`, {
+    fetch(`https://peerprep-330010.as.r.appspot.com/db-data/user`, {
       method: "get",
       headers: new Headers({
         'x-auth-token': token
