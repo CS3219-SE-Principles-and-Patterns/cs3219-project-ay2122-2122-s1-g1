@@ -4,6 +4,10 @@ import { useLocation } from "react-router-dom";
 import { socket } from '../service/socket';
 import Chat from "./Chat";
 import './Editor.css';
+import CollaborativeEditor from './CollaborativeEditor';
+
+  // 1. need to be able to send the end answer back to be saved to DB
+  // 2. need to be able to send the roomId to CollaborativeEditor
 
 function Editor() {
   const [text, setText] = useState('');
@@ -93,6 +97,9 @@ function Editor() {
                 <button type="button" class="btn btn-primary chat-button" onClick={toggleChat}>Toggle chat</button>
                 <button type="button" class="btn btn-danger end-session-button" onClick={endSession}>End session</button>
               </div>
+              <CollaborativeEditor
+
+              />
             </div>
           </div>
 
