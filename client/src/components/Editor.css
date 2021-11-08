@@ -7,10 +7,11 @@
 }
 
 .main-editor {
-  height: 120vh;
+  min-height: 120vh;
 }
 
 .end-session {
+  margin-top: 20px;
   text-align: right;
 }
 
@@ -35,6 +36,7 @@
 
 .chat-popup {
   margin-top: 10px;
+  margin-bottom: 80px;
   background-color: #ffffff;
   bottom: 80px;
   border-radius: 10px;
