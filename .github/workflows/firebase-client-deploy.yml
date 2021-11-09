@@ -47,4 +47,4 @@ jobs:
           args: deploy --only hosting
         env: 
           PROJECT_PATH: ./client
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CS3219_PEERPREP_FRONTEND }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
