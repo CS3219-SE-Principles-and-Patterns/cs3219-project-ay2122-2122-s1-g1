@@ -5,12 +5,11 @@ on:
       - main
       - philip/deploy_frontend
 jobs:
-  build:
-    name: build
+  deployGAE:
+    name: deploy frontend on GAE
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Install dependencies
         run: npm install
         working-directory: ./client
@@ -19,11 +18,6 @@ jobs:
           CI: false
         run: npm run-script build
         working-directory: ./client
-  deployGAE:
-    name: deploy frontend on GAE
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - uses: google-github-actions/deploy-appengine@main
         with:
           working_directory: ./client
