@@ -10,9 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./client
+      - name: Build
+        env:
+          CI: false
+        run: npm run-script build
+        working-directory: ./client
       - uses: google-github-actions/deploy-appengine@main
         with:
-          project_id: ${{ secrets.GCP_PROJECT_FRONTEND }}
           working_directory: ./client
           deliverables: ./app.yaml
           credentials: ${{ secrets.GCP_CREDENTIALS_FRONTEND }}
