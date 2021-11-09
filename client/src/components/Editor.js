@@ -6,8 +6,8 @@ import Chat from "./Chat";
 import './Editor.css';
 import CollaborativeEditor from './CollaborativeEditor';
 
-  // 1. need to be able to send the end answer back to be saved to DB
-  // 2. need to be able to send the roomId to CollaborativeEditor
+// 1. need to be able to send the end answer back to be saved to DB
+// 2. need to be able to send the roomId to CollaborativeEditor
 
 function Editor() {
   const [text, setText] = useState('');
@@ -92,16 +92,16 @@ function Editor() {
                 Answer:
               </h3>
               <div>
-                <CollaborativeEditor roomId={location.state.roomId}/>
+                <CollaborativeEditor roomId={location.state.roomId} />
               </div>
-              
+
               {/* <textarea class="form-control" id="textarea" rows="15"></textarea>
               <ul id="messages"></ul> */}
               <div class="col end-session">
                 <button type="button" class="btn btn-primary chat-button" onClick={toggleChat}>Toggle chat</button>
                 <button type="button" class="btn btn-danger end-session-button" onClick={endSession}>End session</button>
               </div>
-              
+
             </div>
           </div>
 

@@ -56,11 +56,11 @@ function Chat(props) {
               </ul>
             </div>
             <div class="panel-footer">
-              <div class="input-group">
-                <input id="message-input" type="text" class="form-control input" placeholder="Type your message here..." onKeyDown={handleKeyDown} />
-                <span class="input-group-btn">
+              <div>
+                <input id="message-input" type="text" class="form-control" placeholder="Type your message here..." onKeyDown={handleKeyDown} />
+                {/* <span class="input-group-btn">
                   <button type="submit" class="btn btn-warning" id="btn-chat" onClick={sendMessage}>Send</button>
-                </span>
+                </span> */}
               </div>
             </div>
           </div>
