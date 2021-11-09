@@ -40,7 +40,6 @@ jobs:
         uses: actions/download-artifact@master
         with:
           path: ./client
-          working-directory: ./client
           name: build
       - name: Deploy to firebase
         uses: w9jds/firebase-action@v2.0.0
