@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { socket } from '../service/socket';
+import { axiosService } from '../service/axiosService'
 import Chat from "./Chat";
 import './Editor.css';
 import CollaborativeEditor from './CollaborativeEditor';
@@ -17,6 +18,51 @@ function Editor() {
   const history = useHistory();
   const location = useLocation();
   const question = location.state.question;
+  const username = sessionStorage.getItem('username');
+
+  const fetchToken = async () => {
+    return new Promise(async (resolve, reject) => {
+      const refreshToken = localStorage.getItem('refreshToken')
+      await axiosService.post('auth/refresh_token', {
+        refreshToken: refreshToken,
+      }).then((response) => {
+        console.log(response);
+        resolve(response);
+      }, (error) => {
+        console.log(error);
+        reject(error);
+      });
+    })
+  }
+
+  const updateUsersQuestionDone = async (username, difficulty, number, answer) => {
+    const expireTime = localStorage.getItem('expireTime')
+    if (Date.now() >= expireTime) {
+      await fetchToken();
+    }
+
+    const token = localStorage.getItem('accessToken')
+    const data = {
+      "userName": username,
+      "difficulty": difficulty,
+      "number": number,
+      "answer": answer
+    }
+    console.log(token);
+    console.log(data);
+    fetch(`https://peerprep-330010.as.r.appspot.com/db-data/updateUser`, {
+      method: "put",
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'x-auth-token': token
+      }),
+      body: JSON.stringify(data)
+    })
+      .then((res) => res.json())
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 
   useEffect(() => {
     // const textarea = document.getElementById('textarea');
@@ -38,8 +84,9 @@ function Editor() {
       history.push('/dashboard');
     })
   });
-
+  
   const endSession = () => {
+    updateUsersQuestionDone(username, question.difficulty, question.questionNumber, "");
     socket.emit('endSession', { roomId: location.state.roomId });
   }
 
@@ -91,7 +138,7 @@ function Editor() {
               <h3>
                 Answer:
               </h3>
-              <div>
+              <div id="myEditor">
                 <CollaborativeEditor roomId={location.state.roomId}/>
               </div>
               
