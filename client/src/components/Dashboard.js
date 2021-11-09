@@ -10,8 +10,29 @@ import { socket } from '../service/socket';
 import { Doughnut } from 'react-chartjs-2';
 import Box from '@material-ui/core/Box';
 
+function useTrait(initialValue) {
+  const [trait, updateTrait] = useState(initialValue);
+
+  let current = trait;
+
+  const get = () => current;
+
+  const set = newValue => {
+     current = newValue;
+     updateTrait(newValue);
+     return current;
+  }
+
+  return {
+     get,
+     set,
+  }
+}
+
 function Dashboard() {
   const history = useHistory();
+  var allQuestionsDone = useTrait(false);
+  var currDifficulty = useTrait("");
 
   const fetchUsersAvailableQuestion = (difficulty) => {
     return new Promise(async (resolve, reject) => {
@@ -44,13 +65,23 @@ function Dashboard() {
 
   const createRoom = async (difficulty) => {
     // socket.on('disconnect', console.log('disconnected'))
+    currDifficulty.set(difficulty);
 
     // getting list of questions that the user has not done based on difficulty, change the argument passed here
     var listOfQuestions = await fetchUsersAvailableQuestion(difficulty).then(questions => {
       for (var index in questions) {
         console.log(questions[index]);
       }
-      socket.emit('join', { difficulty: difficulty, questions: questions });
+
+      if (questions.length > 0) {
+        allQuestionsDone.set(false);
+        socket.emit('join', { difficulty: difficulty, questions: questions });
+      } else {
+        // can add popup?
+        allQuestionsDone.set(true);
+        console.log("all questions done, please try another difficulty")
+      }
+      
     });
 
     socket.on('connected', ({ roomId, connectedUser }) => {
@@ -193,7 +224,9 @@ function Dashboard() {
               <button class="btn btn-lg btn-hard btn-danger rounded-pill" size="lg" onClick={() => createRoom('hard')}>
                 Hard
               </button>
+              { allQuestionsDone.get() === true && <p style={{color: "#fd5e53"}}>All {currDifficulty.get()} questions done</p>} 
             </div>
+            
           </div>
         </div>
       </div>

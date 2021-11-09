@@ -49,7 +49,10 @@ io.on('connection', (client) => {
     if (rooms) {
       // iterate current rooms and join if possible
       for (const [key, value] of Object.entries(rooms)) {
-        if (key.includes(difficulty.concat('-')) && value['users'] < 2) {
+        const availableQuestions = roomIdToQuestions[key];
+        const filteredQuestions = availableQuestions.filter(q => { return questions.map(p => p._id).includes(q._id); });
+        console.log(filteredQuestions);
+        if (key.includes(difficulty.concat('-')) && value['users'] < 2 && filteredQuestions.length > 0) {
           client.join(key);
           rooms[key]['users'] = 2;
           console.log(`client [${client.id}] has joined existing room [${key}]`);
@@ -61,8 +64,6 @@ io.on('connection', (client) => {
           hasJoined = true;
 
           // choose a question available in room roomId
-          const availableQuestions = roomIdToQuestions[key];
-          const filteredQuestions = availableQuestions.filter(q => { return questions.map(p => p._id).includes(q._id); });
           const chosenQuestion = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
 
           // if (!filteredQuestions) {
