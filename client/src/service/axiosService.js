@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const dbURL = "http://localhost:8080/"
+const dbURL = "https://peerprep-330010.as.r.appspot.com/"
 
 export const axiosService = axios.create({
     baseURL: dbURL,
