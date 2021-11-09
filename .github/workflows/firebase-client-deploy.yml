@@ -18,9 +18,6 @@ jobs:
         uses: actions/checkout@master
       - name: Install dependencies
         run: npm install
-      - name: Build
-        run: npm run-script build
-        working-directory: client
       - name: Archive production artifcats
         uses: actions/upload-artifact@master
         with:
