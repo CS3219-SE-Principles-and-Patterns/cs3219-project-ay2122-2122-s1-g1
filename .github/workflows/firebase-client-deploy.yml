@@ -39,12 +39,14 @@ jobs:
         uses: actions/checkout@master
       - name: Install dependencies
         run: npm install
+      - name: Build
+        run: npm run-script build
+        working-directory: ./client
       - name: Archive production artifcats
         uses: actions/upload-artifact@master
         with:
-          working-directory: client
           name: build
-          path: build
+          path: ./client/build
   deploy:
     name: Deploy
     needs: build
@@ -55,12 +57,12 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
-          working-directory: client
+          working-directory: ./client
           name: build
       - name: Deploy to firebase
         uses: w9jds/firebase-action@v2.0.0
         with: 
-          working-directory: client
+          working-directory: ./client
           args: deploy --only hosting
         env: 
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CS3219_PEERPREP_FRONTEND }}
