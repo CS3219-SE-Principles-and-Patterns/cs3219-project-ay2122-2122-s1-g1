@@ -139,7 +139,7 @@ function Editor() {
                 Answer:
               </h3>
               <div id="myEditor">
-                <CollaborativeEditor roomId={location.state.roomId}/>
+                <CollaborativeEditor roomId={location.state.roomId} userName={username}/>
               </div>
               
               {/* <textarea class="form-control" id="textarea" rows="15"></textarea>

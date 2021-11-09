@@ -50,7 +50,14 @@ function Dashboard() {
       for (var index in questions) {
         console.log(questions[index]);
       }
-      socket.emit('join', { difficulty: difficulty, questions: questions });
+
+      if (questions.length > 0) {
+        socket.emit('join', { difficulty: difficulty, questions: questions });
+      } else {
+        // can add popup?
+        console.log("all questions done, please try another difficulty")
+      }
+      
     });
 
     socket.on('connected', ({ roomId, connectedUser }) => {
