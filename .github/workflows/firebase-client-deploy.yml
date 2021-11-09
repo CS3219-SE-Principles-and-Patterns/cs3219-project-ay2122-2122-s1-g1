@@ -47,4 +47,8 @@ jobs:
           args: deploy --only hosting
         env: 
           PROJECT_PATH: ./client
+<<<<<<< HEAD
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+=======
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CS3219_PEERPREP_FRONTEND }}
+>>>>>>> Update firebase-client-deploy.yml
