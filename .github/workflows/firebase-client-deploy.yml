@@ -39,11 +39,19 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
+<<<<<<< HEAD
           path: ./client
+=======
+          working-directory: ./client
+>>>>>>> Update firebase-client-deploy.yml
           name: build
       - name: Deploy to firebase
         uses: w9jds/firebase-action@v2.0.0
         with: 
+<<<<<<< HEAD
+=======
+          working-directory: ./client
+>>>>>>> Update firebase-client-deploy.yml
           args: deploy --only hosting
         env: 
           PROJECT_PATH: ./client
