@@ -112,9 +112,9 @@ io.on('connection', (client) => {
 
 // server.listen(app.get('port'));
 
-const socketIoPort = 8000; // 8000 for SocketIo
-io.listen(socketIoPort);
-console.log('SocketIo - listening on port: ', socketIoPort);
+// const socketIoPort = 8000; // 8000 for SocketIo
+// io.listen(socketIoPort);
+// console.log('SocketIo - listening on port: ', socketIoPort);
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -157,7 +157,7 @@ app.use(function (err, req, res, next) {
 var port = process.env.PORT || 8080;
 
 // Launch app to listen to specified port
-app.listen(port, function () {
+server.listen(port, function () {
   console.log("Running PeerPrep on port " + port);
 });
 
