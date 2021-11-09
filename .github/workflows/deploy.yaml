@@ -5,6 +5,20 @@ on:
       - main
       - philip/deploy_frontend
 jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@master
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./client
+      - name: Build
+        env:
+          CI: false
+        run: npm run-script build
+        working-directory: ./client
   deployGAE:
     name: deploy frontend on GAE
     runs-on: ubuntu-latest
