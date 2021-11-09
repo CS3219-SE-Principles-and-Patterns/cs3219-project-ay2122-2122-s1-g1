@@ -20,6 +20,8 @@ jobs:
         run: npm install
         working-directory: ./client
       - name: Build
+        env:
+          CI: false
         run: npm run-script build
         working-directory: ./client
       - name: Archive production artifcats
