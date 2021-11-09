@@ -39,9 +39,6 @@ jobs:
         uses: actions/checkout@master
       - name: Install dependencies
         run: npm install
-      - name: Build
-        run: npm run-script build
-        working-directory: client
       - name: Archive production artifcats
         uses: actions/upload-artifact@master
         with:
@@ -67,4 +64,7 @@ jobs:
           args: deploy --only hosting
         env: 
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CS3219_PEERPREP_FRONTEND }}
+<<<<<<< HEAD
 >>>>>>> Add firebase deployment yaml
+=======
+>>>>>>> Update firebase-client-deploy.yml
