@@ -10,12 +10,11 @@ on:
       - philip/firebase_deploy
     
 jobs:
-  build:
-    name: build
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@master
+      - uses: actions/checkout@v2
+      # Add any build steps here. For example:
       - name: Install dependencies
         run: npm install
         working-directory: ./client
@@ -24,27 +23,9 @@ jobs:
           CI: false
         run: npm run-script build
         working-directory: ./client
-      - name: Archive production artifcats
-        uses: actions/upload-artifact@master
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          name: build
-          path: ./client/build
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout repo
-        uses: actions/checkout@master
-      - name: Download Artifact
-        uses: actions/download-artifact@master
-        with:
-          path: ./client
-          name: build
-      - name: Deploy to firebase
-        uses: w9jds/firebase-action@v2.0.0
-        with: 
-          args: deploy --only hosting
-        env: 
-          PROJECT_PATH: ./client
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          firebaseServiceAccount: "${{ secrets.FIREBASE_TOKEN }}"
+          projectId: cs3219-peerprep-frontend
+          entryPoint: ./client
+          channelId: live
