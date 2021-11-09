@@ -63,3 +63,8 @@
 .panel-footer {
   margin-top: 10px;
 }
+
+#message-input {
+  position: relative;
+  max-width: 100%;
+}
